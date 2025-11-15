@@ -15,7 +15,7 @@ public class AIPatrolState : BaseAIState
 
     public override void OnStateEnd()
     {
-        throw new System.NotImplementedException();
+        return;
     }
 
     public override void OnStateStay()
@@ -35,5 +35,18 @@ public class AIPatrolState : BaseAIState
             }
             AIUser.targetPosition = patrolPoints[patrolIndex];
         }
+		
+		if(AIUser.CanSeePlayer())
+		{
+			if(GetComponent<AISuspisciousState>() == null)
+			{
+				AIUser.SetState(gameObject.AddComponent<AISuspisciousState>());
+			}
+			else
+			{
+				AIUser.SetState(gameObject.GetComponent<AISuspisciousState>());
+			}
+			return;
+		}
     }
 }

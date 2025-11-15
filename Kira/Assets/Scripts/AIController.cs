@@ -15,6 +15,16 @@ public class AIController : MonoBehaviour, StateUser
 
     public BaseAIState currentState;
     [HideInInspector] public Vector3 targetPosition;
+	
+	[Header("Vision Settings")]
+	public float viewRange = 20f;			// How far the AI can see
+	public float viewAngle = 80f; 			// Cone of vision in degrees
+	
+	[HideInInspector]public Vector3 lastKnownPlayerPosition;
+	[HideInInspector]public bool canSeePlayer;
+	
+	private float lostSightTimer = 0f;
+	public float lostSightThreshold = 3f;		// Seconds before forgetting player
 
     private void Awake()
     {
@@ -24,6 +34,7 @@ public class AIController : MonoBehaviour, StateUser
 
     private void Start()
     {
+		player = GameObject.FindGameObjectWithTag("Player").transform;
         ExecuteStateOnStart();
     }
 
@@ -96,4 +107,43 @@ public class AIController : MonoBehaviour, StateUser
         currentState.OnStateStart(this, this);
         
     }
+	
+	public bool CanSeePlayer()
+	{
+		if(player == null)
+		{
+			print("Enemy " + gameObject.name + "'s AI doesn't have a Player reference set. // Philip revisalo xfa XD");
+			return false;
+		}
+		
+		Vector3 dirToPlayer = (player.position - transform.position);
+		float distance = dirToPlayer.magnitude;
+		if(distance > viewRange) return false; // Out of range.
+		
+		dirToPlayer.Normalize();
+		float angle = Vector3.Angle(transform.forward, dirToPlayer);
+		if(angle > viewAngle * 0.5f) return false; // Out of view.
+		
+		if(Physics.Raycast(transform.position + Vector3.up, dirToPlayer, out RaycastHit hit, viewRange))
+		{
+			if(hit.collider.transform == player)
+			{
+				canSeePlayer = true;
+				lastKnownPlayerPosition = player.position;
+				lostSightTimer = 0f;
+				return true;
+			}
+		}
+		
+		if(canSeePlayer)
+		{
+			lostSightTimer += Time.deltaTime;
+			if(lostSightTimer > lostSightThreshold)
+			{
+				canSeePlayer = false;
+			}
+		}
+		
+		return true;
+	}
 }

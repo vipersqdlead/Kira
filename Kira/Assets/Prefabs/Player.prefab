@@ -154,7 +154,7 @@ GameObject:
   - component: {fileID: 9094940190149109117}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -193,6 +193,8 @@ MonoBehaviour:
   dashForce: 1
   dashDuration: 0.2
   jumpForce: 5
+  onLadder: 0
+  climbSpeed: 3
 --- !u!114 &3675982594912177767
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -236,6 +238,7 @@ MonoBehaviour:
   invulnerable: 0
   invulnerableTimer: 0
   isBlocking: 0
+  stamina: 1
 --- !u!114 &2841318566197667794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -259,9 +262,11 @@ MonoBehaviour:
   attackAngle: 70
   attackCooldown: 0.4
   damage: 25
+  attackTimer: 0
   swordObj: {fileID: 0}
   parryWindow: 0.25
   parryPushForce: 8
+  isBlocking: 0
 --- !u!54 &6498834686086093880
 Rigidbody:
   m_ObjectHideFlags: 0

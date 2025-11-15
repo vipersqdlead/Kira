@@ -11,6 +11,10 @@ public class CharacterMovement : MonoBehaviour
     public float dashForce = 5f;
     public float dashDuration = 0.2f;
 	public float jumpForce = 5f;
+	
+	[Header("Ladder Settings")]
+	public bool onLadder = false;
+	public float climbSpeed = 3f;
 
     private Vector3 velocity;
     private bool isGrounded;
@@ -29,6 +33,12 @@ public class CharacterMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+		if(onLadder)
+		{
+			HandleLadderMovement();
+			return;
+		}
+		
         HandleDash();
         MoveCharacter();
 		CheckGround();
@@ -97,7 +107,7 @@ public class CharacterMovement : MonoBehaviour
         if (!isDashing) return;
 
         dashTimer -= Time.deltaTime;
-        Vector3 dashDir = transform.forward * dashForce * (Time.deltaTime * 60f);
+        Vector3 dashDir = transform.forward * dashForce * (Time.fixedDeltaTime * 60f);
         //controller.Move(dashDir * Time.deltaTime);
 		
 		rb.position += dashDir;
@@ -112,12 +122,41 @@ public class CharacterMovement : MonoBehaviour
 	{
 		if(!isGrounded) { print("Tried to jump, but char is not grounded."); return; }
 		
-		rb.AddForce(transform.up * jumpForce * (Time.deltaTime * 60f), ForceMode.Impulse);
+		rb.AddForce(transform.up * jumpForce * (Time.fixedDeltaTime * 60f), ForceMode.Impulse);
 		print("Jump!");
+	}
+	
+	public void HandleLadderMovement()
+	{
+		if(!onLadder) return;
+		
+		rb.useGravity = false;
+		
+		Vector3 climbVelocity = new Vector3(moveInput.x * 0.5f, moveInput.y, 0f);
+		rb.linearVelocity = climbVelocity;
 	}
 	
 	void CheckGround()
 	{
 		isGrounded = Physics.Raycast(transform.position, -transform.up, 1.05f);
+	}
+	
+	private void OnTriggerEnter(Collider other)
+	{
+		if(other.gameObject.CompareTag("Ladder"))
+		{
+			onLadder = true;
+			rb.useGravity = false;
+			rb.linearVelocity = Vector3.zero;
+		}
+	}
+	
+	private void OnTriggerExit(Collider other)
+	{
+		if(other.gameObject.CompareTag("Ladder"))
+		{
+			onLadder = false;
+			rb.useGravity = true;
+		}
 	}
 }
