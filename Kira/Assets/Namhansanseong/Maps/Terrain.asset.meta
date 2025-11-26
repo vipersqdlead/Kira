@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: c31dc82896545f648bd9c05ce067e3ed
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 15600000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 292645
+  packageName: KHS - Namhansanseong Fortress
+  packageVersion: 1.0
+  assetPath: Assets/Namhansanseong/Maps/Terrain.asset
+  uploadId: 684640

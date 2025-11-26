@@ -31,9 +31,9 @@ public class AIFightingState : BaseAIState
 		}
 		
 		float dist = Vector3.Distance(AIUser.transform.position, AIUser.player.position);
-		
-		if(dist <= AIUser.stopDistance + 0.5f)
-		{
+
+        if (dist <= (AIUser.stopDistance * 2) + 0.5f)
+        {
 			AIUser.movement.MoveXY(Vector2.zero);
 			AIUser.swordController.StartAttack();
 		}

@@ -5,11 +5,8 @@ public class PlayerInputs : MonoBehaviour
 	public CharacterMovement movement;
 	public SwordController sword;
 
-	public KeyCode crouchKey, jumpKey, attackKey, blockKey;
+	public KeyCode crouchKey, jumpKey, attackKey, blockKey, dashKey;
 	
-	[Header("Dash Settings")]
-    public float doubleTapTime = 0.25f; // max delay between taps to count as double tap
-    private float lastTapW; // Track timing for each key
 	
 	private void Start()
     {
@@ -22,19 +19,13 @@ public class PlayerInputs : MonoBehaviour
         Vector2 move = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
         movement.MoveXY(move);
 		
-		if (Input.GetKeyDown(KeyCode.W))
-        {
-            if (Time.time - lastTapW < doubleTapTime)
-            {
-                movement.Dash(); // Dash forward
-				print("Dash");
-            }
-            lastTapW = Time.time;
-        }
-		
 		if(Input.GetKeyDown(jumpKey))
 		{
 			movement.Jump();
+		}
+		if(Input.GetKeyDown(dashKey))
+		{
+			movement.Dash();
 		}
 		
 		if(Input.GetKeyDown(attackKey))
@@ -52,24 +43,22 @@ public class PlayerInputs : MonoBehaviour
 		}
 		
 		movement.SetCrouch(Input.GetKey(crouchKey));
-		/*
+        /*
         if (Input.GetKeyDown(KeyCode.C))
             movement.SetCrouch(true);
         if (Input.GetKeyUp(KeyCode.C))
             movement.SetCrouch(false); */
-
-
     }
 	
 	void FixedUpdate()
 	{
-		HandleMouseLook();
+        HandleMouseLook();
 
         // Rotate toward camera direction (for FPS)
         Vector3 cameraForward = Camera.main.transform.forward;
         cameraForward.y = 0;
         movement.RotateTowards(cameraForward);
-	}
+    }
 
     [Header("Sensitivity Settings")]
     public float mouseSensitivity = 150f;

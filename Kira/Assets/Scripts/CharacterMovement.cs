@@ -74,7 +74,7 @@ public class CharacterMovement : MonoBehaviour
 
     public void Dash()
     {
-        if (isDashing || isCrouching) return;
+        if (isDashing || isCrouching || !isGrounded) return;
         dashTimer = dashDuration;
 		isDashing = true;
     }
@@ -84,20 +84,15 @@ public class CharacterMovement : MonoBehaviour
     private void MoveCharacter()
     {
         if (isDashing) return; // handled separately
-
-        // Convert input to world-space movement
+		
         Vector3 moveDir = transform.forward * moveInput.y + transform.right * moveInput.x;
-        //moveDir.Normalize();
-
-        float currentSpeed = moveSpeed * (isCrouching ? crouchSpeedMultiplier : 1f);
-        Vector3 move = moveDir * currentSpeed * (Time.deltaTime * 60f);
-		
-		rb.position += move;
-		
-		//Vector3 newVelocity = new Vector3(horizontalVelocity.x, verticalVelocity, horizontalVelocity.z);
-        //rb.linearVelocity = move;
-
-        //controller.Move(move + velocity * Time.deltaTime);
+		moveDir = Vector3.ClampMagnitude(moveDir, 1f);
+		//moveDir.magnitude = Mathf.Clamp(moveDir.magnitude, -1f, 1f);
+		float currentSpeed = moveSpeed * (isCrouching ? crouchSpeedMultiplier : 1f);
+				
+		Vector3 vel = rb.linearVelocity;
+		Vector3 moveVelocity = moveDir * currentSpeed * 60f;
+		rb.linearVelocity = new Vector3(moveVelocity.x, vel.y, moveVelocity.z);
     }
 
     private float _rotationVelocity;
@@ -107,10 +102,12 @@ public class CharacterMovement : MonoBehaviour
         if (!isDashing) return;
 
         dashTimer -= Time.deltaTime;
-        Vector3 dashDir = transform.forward * dashForce * (Time.fixedDeltaTime * 60f);
+        Vector3 dashDir = transform.forward * dashForce * 60f;
         //controller.Move(dashDir * Time.deltaTime);
 		
-		rb.position += dashDir;
+		//rb.position += dashDir;
+		Vector3 vel = rb.linearVelocity;
+		rb.linearVelocity = new Vector3(dashDir.x, vel.y, dashDir.z);
 
         if (dashTimer <= 0)
         {
@@ -132,13 +129,13 @@ public class CharacterMovement : MonoBehaviour
 		
 		rb.useGravity = false;
 		
-		Vector3 climbVelocity = new Vector3(moveInput.x * 0.5f, moveInput.y, 0f);
+		Vector3 climbVelocity = new Vector3(moveInput.x, moveInput.y * climbSpeed, 0f);
 		rb.linearVelocity = climbVelocity;
 	}
 	
 	void CheckGround()
 	{
-		isGrounded = Physics.Raycast(transform.position, -transform.up, 1.05f);
+		isGrounded = Physics.Raycast(transform.position, -transform.up, 1.2f);
 	}
 	
 	private void OnTriggerEnter(Collider other)

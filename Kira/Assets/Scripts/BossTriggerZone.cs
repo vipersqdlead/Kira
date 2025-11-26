@@ -8,7 +8,8 @@ public class BossTriggerZone : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            GameManager.Instance.OnBossRoomEntered(bossToActivate);
+			GameManager manager = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();;
+            manager.OnBossRoomEntered(bossToActivate);
             bossToActivate.SetActive(true);
             gameObject.SetActive(false); // Disable the trigger after use
         }

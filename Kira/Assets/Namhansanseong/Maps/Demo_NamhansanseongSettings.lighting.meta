@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: a15ac923cdf6af247afd8e72cabf120e
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 4890085278179872738
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 292645
+  packageName: KHS - Namhansanseong Fortress
+  packageVersion: 1.0
+  assetPath: Assets/Namhansanseong/Maps/Demo_NamhansanseongSettings.lighting
+  uploadId: 684640

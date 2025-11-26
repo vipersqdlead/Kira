@@ -20,8 +20,8 @@ public class AIController : MonoBehaviour, StateUser
 	public float viewRange = 20f;			// How far the AI can see
 	public float viewAngle = 80f; 			// Cone of vision in degrees
 	
-	[HideInInspector]public Vector3 lastKnownPlayerPosition;
-	[HideInInspector]public bool canSeePlayer;
+	public Vector3 lastKnownPlayerPosition;
+	public bool canSeePlayer;
 	
 	private float lostSightTimer = 0f;
 	public float lostSightThreshold = 3f;		// Seconds before forgetting player
@@ -38,7 +38,7 @@ public class AIController : MonoBehaviour, StateUser
         ExecuteStateOnStart();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         ExecuteStateOnUpdate();
 
@@ -124,8 +124,12 @@ public class AIController : MonoBehaviour, StateUser
 		float angle = Vector3.Angle(transform.forward, dirToPlayer);
 		if(angle > viewAngle * 0.5f) return false; // Out of view.
 		
-		if(Physics.Raycast(transform.position + Vector3.up, dirToPlayer, out RaycastHit hit, viewRange))
+		if(Physics.Raycast(transform.position, dirToPlayer, out RaycastHit hit, viewRange))
 		{
+			if(hit.collider.transform != player)
+			{
+				return false;
+			}
 			if(hit.collider.transform == player)
 			{
 				canSeePlayer = true;
@@ -143,7 +147,6 @@ public class AIController : MonoBehaviour, StateUser
 				canSeePlayer = false;
 			}
 		}
-		
 		return true;
 	}
 }

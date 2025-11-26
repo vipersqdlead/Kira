@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 3
   tags:
   - World
+  - Ladder
+  - Manager
+  - GameManager
   layers:
   - Default
   - TransparentFX
@@ -12,7 +15,7 @@ TagManager:
   - Ground
   - Water
   - UI
-  - 
+  - PostProcessing
   - 
   - 
   - 

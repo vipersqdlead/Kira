@@ -1,3 +1,6 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
@@ -6,9 +9,11 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     public GameObject player;
+	public float missionTimer;
 	
 	[Header("HUD")]
-	public TMP_Text continues, swordState;
+	public TMP_Text continues, swordState, battleTimer;
+	public TMP_Text demoCompleteText;
 	public Image healthBar, staminaBar, swordBar;
 	
     void Start()
@@ -19,12 +24,13 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.R) || player == null)
+        if(Input.GetKeyDown(KeyCode.R) || player == null || player.transform.position.y < -10f)
 		{
 			OnPlayerDeath();
 			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 		}
 		HUD();
+		missionTimer += Time.deltaTime;
     }
 	
 	void HUD()
@@ -46,28 +52,20 @@ public class GameManager : MonoBehaviour
 			swordState.text = "";
 		
 		swordBar.fillAmount = sword.attackTimer / sword.attackDuration;
+		
+		battleTimer.text = "Time: " + TimeSpan.FromSeconds(missionTimer).ToString(@"mm\:ss");
 	}
 	
 	public enum GameState { Playing, BossFight, Victory, GameOver }
 
-    public static GameManager Instance { get; private set; }
-
     public GameState currentState = GameState.Playing;
     public GameObject boss;
 
-    private void Awake()
-    {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
-    }
+
 	
     public void StartGame()
     {
+		player = GameObject.FindWithTag("Player");
         currentState = GameState.Playing;
         // Initialize player, HUD, etc.
     }
@@ -76,6 +74,9 @@ public class GameManager : MonoBehaviour
     {
         currentState = GameState.BossFight;
         boss = bossRef;
+        float timeToFinish = missionTimer;
+        string txt = "Finished! Time to Level Complete was " + TimeSpan.FromSeconds(timeToFinish).ToString(@"mm\:ss");
+        demoCompleteText.text = txt;
         Debug.Log("Boss fight started!");
         // Trigger boss intro, lock arena doors, etc.
     }

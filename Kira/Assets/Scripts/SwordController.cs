@@ -39,6 +39,7 @@ public class SwordController : MonoBehaviour
             return;
 
         isAttacking = true;
+		gameObject.GetComponent<Collider>().attachedRigidbody.AddForce(transform.forward * (2f * Time.fixedDeltaTime * 60f), ForceMode.Impulse);
         attackTimer = 0f;
         StartCoroutine(AttackCooldown());
     }
@@ -81,6 +82,12 @@ public class SwordController : MonoBehaviour
 			var targetHealth = hit.collider.GetComponent<HealthController>();
 			var targetCombat = hit.collider.GetComponent<SwordController>();
 			float targetDamage = Mathf.Lerp(damage / 4f, damage, t);
+			float dotProduct = Vector3.Dot((transform.position - hit.transform.position), hit.transform.forward);
+			if(dotProduct < -0.5f)
+			{
+				targetDamage *= 3f;
+			 	print("Hit from behind");
+			}
             if (targetHealth)
             {
 				if (targetCombat && targetCombat.TryParry(gameObject))
@@ -104,8 +111,29 @@ public class SwordController : MonoBehaviour
 				print("Dealing damage: " + targetDamage);
             }
 			
-			float force = Mathf.Lerp(0f, 1f, t) * Time.deltaTime * 60f;
-			hit.collider.attachedRigidbody.AddForce(toTarget * force, ForceMode.Impulse);
+			float force = Mathf.Lerp(10f, 2f, t) * Time.fixedDeltaTime * 60f;
+			if(hit.collider.attachedRigidbody != null)
+			{
+				hit.collider.attachedRigidbody.AddForce(toTarget * force, ForceMode.Impulse);
+			}
+			
+			var aiController = hit.collider.GetComponent<AIController>();
+			if(aiController !=null)
+			{
+				aiController.lastKnownPlayerPosition = aiController.player.position;
+				if(aiController.currentState is AIPatrolState || aiController.currentState is AISuspisciousState)
+				{
+					if(aiController.gameObject.GetComponent<AIFightingState>() == null)
+					{
+						aiController.SetState(gameObject.AddComponent<AIFightingState>());
+					}
+					else
+					{
+						aiController.SetState(gameObject.GetComponent<AIFightingState>());
+					}
+				}
+			}
+			
         }
 
         if (attackTimer >= attackDuration)

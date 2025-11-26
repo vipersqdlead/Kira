@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 3a8869155a6a3c44d892ddf593efd66e
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 292645
+  packageName: KHS - Namhansanseong Fortress
+  packageVersion: 1.0
+  assetPath: Assets/Namhansanseong/Materials/Landscape/Background.mat
+  uploadId: 684640
