@@ -60,6 +60,11 @@ public class PlayerInputs : MonoBehaviour
         movement.RotateTowards(cameraForward);
     }
 
+    void LateUpdate()
+    {
+
+    }
+
     [Header("Sensitivity Settings")]
     public float mouseSensitivity = 150f;
     public float verticalLookLimit = 89f; // max degrees up/down
