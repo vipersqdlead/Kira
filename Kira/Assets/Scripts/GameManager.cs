@@ -14,8 +14,13 @@ public class GameManager : MonoBehaviour
 	[Header("HUD")]
 	public TMP_Text continues, swordState, battleTimer;
 	public TMP_Text demoCompleteText;
-	public Image healthBar, staminaBar, swordBar;
-	
+    public Image staminaBar, swordBar, inmortalityImage;
+    //public Image healthBar;
+    public Slider healthBar, hitBar;
+    public float lerpSpeed = 0.05f;
+    
+    [Header("animation")]
+    public Animator livesAnimation;
     void Start()
     {
         StartGame();
@@ -24,6 +29,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+    
         if(Input.GetKeyDown(KeyCode.R) || player == null || player.transform.position.y < -10f)
 		{
 			OnPlayerDeath();
@@ -38,14 +44,34 @@ public class GameManager : MonoBehaviour
 		var hp = player.GetComponent<HealthController>();
 		var sword = player.GetComponent<SwordController>();
 		
+        livesAnimation.SetInteger("Vidas", hp.extraLives);
+
+        if(hp.invulnerableTimer > 0)
+        {
+            inmortalityImage.enabled = true;
+        }
+        else
+        {
+           inmortalityImage.enabled = false;
+        }
+        
 		if(hp.extraLives == 0)
 			continues.text = "";
 		else
 			continues.text = "(" + hp.extraLives + ")";
-		
-		healthBar.fillAmount = hp.hpPercent / 100f;
-		staminaBar.fillAmount = hp.stamina;
-		
+
+        //healthBar.fillAmount = hp.hpPercent / 100f;
+        if(healthBar.value != hp.HP)
+        {
+            healthBar.value = hp.HP;
+        }
+        staminaBar.fillAmount = hp.stamina;
+        if(healthBar.value != hitBar.value)
+        {
+        hitBar.value = Mathf.Lerp(hitBar.value,hp.HP,lerpSpeed);
+            
+        }
+
 		if(sword.isBlocking)
 			swordState.text = "Blocking";
 		else

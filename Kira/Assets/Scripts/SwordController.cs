@@ -23,6 +23,7 @@ public class SwordController : MonoBehaviour
     private bool onCooldown;
     public float attackTimer;
 
+	public Animator attacksAnimation;
     private void FixedUpdate()
     {
         if (isAttacking)
@@ -93,6 +94,7 @@ public class SwordController : MonoBehaviour
 				if (targetCombat && targetCombat.TryParry(gameObject))
 				{
 					Debug.Log("Attack was parried!");
+					
 					isAttacking = false; // optional: cancel your attack
 					return;              // stop further damage/knockback
 				}

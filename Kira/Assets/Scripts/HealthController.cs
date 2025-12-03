@@ -17,11 +17,12 @@ public class HealthController : MonoBehaviour
     [SerializeField] GameObject destroyedObject;
 
     public bool invulnerable;
-    [SerializeField] float invulnerableTimer;
+    [SerializeField] public float invulnerableTimer;
 	
 	public bool isBlocking = false;
-	public float stamina = 1f;
-	
+    public float stamina = 1f;
+
+    
 	void Awake()
 	{
 
@@ -87,8 +88,10 @@ public class HealthController : MonoBehaviour
 			print("out of Stamina");
 			isBlocking = false;
 		}
-		
-		CheckStamina();
+
+        CheckStamina();
+
+        
     }
 
     float dpsTimer;
@@ -161,7 +164,7 @@ public class HealthController : MonoBehaviour
         extraLives--;
         hpPercent = HP * 100 / maxHP;
         invulnerable = true;
-        invulnerableTimer += 10f;
+        invulnerableTimer += 2.5f;
 		CureStatusEffects();
         return;
     }

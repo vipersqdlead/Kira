@@ -22,6 +22,8 @@ public class CharacterMovement : MonoBehaviour
     private bool isDashing;
     private float dashTimer;
 
+	
+
     // Movement input (set externally by PlayerInput or AI)
     private Vector2 moveInput;
     private float targetRotation;
@@ -102,7 +104,9 @@ public class CharacterMovement : MonoBehaviour
         if (!isDashing) return;
 
         dashTimer -= Time.deltaTime;
-        Vector3 dashDir = transform.forward * dashForce * 60f;
+		Vector3 moveDir = transform.forward * moveInput.y + transform.right * moveInput.x;
+		moveDir = Vector3.ClampMagnitude(moveDir, 1f);
+        Vector3 dashDir = moveDir * dashForce * 60f;
         //controller.Move(dashDir * Time.deltaTime);
 		
 		//rb.position += dashDir;
