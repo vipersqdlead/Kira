@@ -1,14 +1,22 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class AIPatrolState : BaseAIState
 {
     private Vector3 nextPatrolPoint;
-    public Vector3[] patrolPoints;
+    //public Vector3[] patrolPoints;
+	public List<Vector3> patrolPoints;
     public int patrolIndex = 0;
 
     public override void OnStateStart(StateUser user, AIController userGO)
     {
         base.OnStateStart(user, userGO);
+        if (patrolPoints.Count == 0)
+        {
+            patrolPoints.Add(transform.position);
+        }
         AIUser.targetPosition = patrolPoints[patrolIndex];
         AIUser.movement.moveSpeed *= 0.3f;
     }
@@ -25,7 +33,7 @@ public class AIPatrolState : BaseAIState
 
         if (Vector3.Distance(AIUser.transform.position, AIUser.targetPosition) <= AIUser.stopDistance)
         {
-            if (patrolIndex < patrolPoints.Length - 1)
+            if (patrolIndex < patrolPoints.Count - 1)
             {
                 patrolIndex++;
             }
