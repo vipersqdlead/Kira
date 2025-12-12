@@ -18,7 +18,8 @@ public class GameManager : MonoBehaviour
     //public Image healthBar;
     public Slider healthBar, hitBar;
     public float lerpSpeed = 0.05f;
-    
+    public FadeInOut fadeinOut;
+
     [Header("animation")]
     public Animator livesAnimation;
     void Start()
@@ -103,6 +104,8 @@ public class GameManager : MonoBehaviour
         float timeToFinish = missionTimer;
         string txt = "Finished! Time to Level Complete was " + TimeSpan.FromSeconds(timeToFinish).ToString(@"mm\:ss");
         demoCompleteText.text = txt;
+        fadeinOut.ActivateFadeOut = true;
+        Time.timeScale = 0.2f;
         Debug.Log("Boss fight started!");
         // Trigger boss intro, lock arena doors, etc.
     }

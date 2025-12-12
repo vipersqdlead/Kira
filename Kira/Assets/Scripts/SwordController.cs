@@ -17,6 +17,7 @@ public class SwordController : MonoBehaviour
 	public float attackAngle = 70f;
     public float attackCooldown = 0.4f;   // time between attacks
     public float damage = 25f;
+	public float attackPushback = 20f;
 	private HashSet<GameObject> wereHit = new HashSet<GameObject>();
 
     private bool isAttacking;
@@ -113,7 +114,7 @@ public class SwordController : MonoBehaviour
 				print("Dealing damage: " + targetDamage);
             }
 			
-			float force = Mathf.Lerp(10f, 2f, t) * Time.fixedDeltaTime * 60f;
+			float force = Mathf.Lerp(10f, 2f, t) * Time.fixedDeltaTime * 60f * attackPushback;
 			if(hit.collider.attachedRigidbody != null)
 			{
 				hit.collider.attachedRigidbody.AddForce(toTarget * force, ForceMode.Impulse);

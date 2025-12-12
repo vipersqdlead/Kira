@@ -16,6 +16,10 @@ PrefabInstance:
       propertyPath: m_Center.y
       value: 0.10493517
       objectReference: {fileID: 0}
+    - target: {fileID: 4182027832958243199, guid: a171401b87177b247aee29a53e9b7062, type: 3}
+      propertyPath: attackPushback
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 6249016100685497090, guid: a171401b87177b247aee29a53e9b7062, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

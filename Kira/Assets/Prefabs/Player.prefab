@@ -269,6 +269,7 @@ MonoBehaviour:
   attackAngle: 70
   attackCooldown: 0.4
   damage: 25
+  attackPushback: 50
   attackTimer: 0
   attacksAnimation: {fileID: 7432531675206365657}
   swordObj: {fileID: 0}

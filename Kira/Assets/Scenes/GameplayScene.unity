@@ -3360,6 +3360,7 @@ MonoBehaviour:
   healthBar: {fileID: 394563137}
   hitBar: {fileID: 875466309}
   lerpSpeed: 0.03
+  fadeinOut: {fileID: 1764844987}
   livesAnimation: {fileID: 1686878055}
   currentState: 0
   boss: {fileID: 798817413}
@@ -8257,6 +8258,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7754284028962440491, guid: 532d2c658832350428a6db93d9475706, type: 3}
   m_PrefabInstance: {fileID: 1763170307}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1764844987 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2644364046334195604, guid: 21b9b6d0f2888234b8504115814ad929, type: 3}
+  m_PrefabInstance: {fileID: 1867979926}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5c1331b2efd4b84a974aa37801dec51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1775197297
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8562,9 +8574,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3473721160205215067, guid: 21b9b6d0f2888234b8504115814ad929, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4111467818369293551, guid: 21b9b6d0f2888234b8504115814ad929, type: 3}
+      propertyPath: m_SortingOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4505755466806645944, guid: 21b9b6d0f2888234b8504115814ad929, type: 3}
       propertyPath: m_Name
       value: HUD
+      objectReference: {fileID: 0}
+    - target: {fileID: 4505755466806645944, guid: 21b9b6d0f2888234b8504115814ad929, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4794032961959227899, guid: 21b9b6d0f2888234b8504115814ad929, type: 3}
       propertyPath: m_AnchorMax.x
@@ -8613,6 +8637,14 @@ PrefabInstance:
     - target: {fileID: 6717732961155754380, guid: 21b9b6d0f2888234b8504115814ad929, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7016102689955156951, guid: 21b9b6d0f2888234b8504115814ad929, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7742103131682082137, guid: 21b9b6d0f2888234b8504115814ad929, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9221252515206761719, guid: 21b9b6d0f2888234b8504115814ad929, type: 3}
       propertyPath: m_AnchorMax.x
