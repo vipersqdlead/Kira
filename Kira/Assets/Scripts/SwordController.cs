@@ -25,6 +25,8 @@ public class SwordController : MonoBehaviour
     public float attackTimer;
 
 	public Animator attacksAnimation;
+	public AudioSource aSource;
+	public AudioClip slashSound, clashSound, parrySound;
     private void FixedUpdate()
     {
         if (isAttacking)
@@ -41,6 +43,7 @@ public class SwordController : MonoBehaviour
             return;
 
         isAttacking = true;
+		aSource.PlayOneShot(slashSound);
 		gameObject.GetComponent<Collider>().attachedRigidbody.AddForce(transform.forward * (2f * Time.fixedDeltaTime * 60f), ForceMode.Impulse);
         attackTimer = 0f;
         StartCoroutine(AttackCooldown());
@@ -95,16 +98,17 @@ public class SwordController : MonoBehaviour
 				if (targetCombat && targetCombat.TryParry(gameObject))
 				{
 					Debug.Log("Attack was parried!");
-					
-					isAttacking = false; // optional: cancel your attack
+                    aSource.PlayOneShot(parrySound);
+                    isAttacking = false; // optional: cancel your attack
 					return;              // stop further damage/knockback
 				}
 				
 				if (targetCombat && targetCombat.isBlocking)
 				{
 					Debug.Log("Attack blocked!");
-					// Apply reduced damage instead of full
-					float reducedDamage = targetDamage * 0.3f;
+                    aSource.PlayOneShot(clashSound);
+                    // Apply reduced damage instead of full
+                    float reducedDamage = targetDamage * 0.3f;
 					targetHealth.TryKill(reducedDamage);
 					return;
 				}

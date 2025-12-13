@@ -22,6 +22,9 @@ public class CharacterMovement : MonoBehaviour
     private bool isDashing;
     private float dashTimer;
 
+	[Header("Effects")]
+	public AudioSource aSource;
+	public AudioClip dashjumpSound, stepSound;
 	
 
     // Movement input (set externally by PlayerInput or AI)
@@ -77,6 +80,7 @@ public class CharacterMovement : MonoBehaviour
     public void Dash()
     {
         if (isDashing || isCrouching || !isGrounded) return;
+		aSource.PlayOneShot(dashjumpSound);
         dashTimer = dashDuration;
 		isDashing = true;
     }
@@ -124,7 +128,8 @@ public class CharacterMovement : MonoBehaviour
 		if(!isGrounded) { print("Tried to jump, but char is not grounded."); return; }
 		
 		rb.AddForce(transform.up * jumpForce * (Time.fixedDeltaTime * 60f), ForceMode.Impulse);
-		print("Jump!");
+        aSource.PlayOneShot(dashjumpSound);
+        print("Jump!");
 	}
 	
 	public void HandleLadderMovement()

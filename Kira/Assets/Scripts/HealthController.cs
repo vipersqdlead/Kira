@@ -15,6 +15,8 @@ public class HealthController : MonoBehaviour
 
     [Header("Effects")]
     [SerializeField] GameObject destroyedObject;
+    [SerializeField] AudioSource aSource;
+    [SerializeField] AudioClip hitSound, deathSound;
 
     public bool invulnerable;
     [SerializeField] public float invulnerableTimer;
@@ -64,6 +66,10 @@ public class HealthController : MonoBehaviour
                     }
                 }
             }
+            else
+            {
+                aSource.PlayOneShot(hitSound);
+            }
             return false;
         }
         else
@@ -112,6 +118,7 @@ public class HealthController : MonoBehaviour
 
     void Kill()
     {
+        aSource.PlayOneShot(deathSound);
         InstantiateDestroyedObject();
         Destroy(gameObject);
         return;
