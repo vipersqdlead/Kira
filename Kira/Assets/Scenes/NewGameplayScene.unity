@@ -2058,6 +2058,7 @@ MonoBehaviour:
   staminaBar: {fileID: 88936817}
   swordBar: {fileID: 1515135544}
   inmortalityImage: {fileID: 1486731909}
+  controlsHelp: {fileID: 1867979929}
   healthBar: {fileID: 394563137}
   hitBar: {fileID: 875466309}
   lerpSpeed: 0.03
@@ -4634,9 +4635,17 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3764443209002713240, guid: 21b9b6d0f2888234b8504115814ad929, type: 3}
+      propertyPath: m_Value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3764443209002713240, guid: 21b9b6d0f2888234b8504115814ad929, type: 3}
+      propertyPath: m_MaxValue
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4111467818369293551, guid: 21b9b6d0f2888234b8504115814ad929, type: 3}
       propertyPath: m_SortingOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4505755466806645944, guid: 21b9b6d0f2888234b8504115814ad929, type: 3}
       propertyPath: m_Name
@@ -4702,6 +4711,14 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7922838787849816681, guid: 21b9b6d0f2888234b8504115814ad929, type: 3}
+      propertyPath: m_Value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7922838787849816681, guid: 21b9b6d0f2888234b8504115814ad929, type: 3}
+      propertyPath: m_MaxValue
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8985739084756393105, guid: 21b9b6d0f2888234b8504115814ad929, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -2.8962402
@@ -4745,6 +4762,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1867979929 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6210995996506862421, guid: 21b9b6d0f2888234b8504115814ad929, type: 3}
+  m_PrefabInstance: {fileID: 1867979926}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1871784273 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7704083737561874031, guid: 573c113741e3d4f428d78dbe6ed5a13f, type: 3}
@@ -5473,9 +5495,9 @@ SceneRoots:
   m_Roots:
   - {fileID: 410087041}
   - {fileID: 832575519}
-  - {fileID: 719535380}
   - {fileID: 798817414}
   - {fileID: 689945753}
   - {fileID: 1867979926}
+  - {fileID: 719535380}
   - {fileID: 603820734}
   - {fileID: 653977006}

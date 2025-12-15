@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
 	public TMP_Text continues, swordState, battleTimer;
 	public TMP_Text demoCompleteText;
     public Image staminaBar, swordBar, inmortalityImage;
+    public GameObject controlsHelp;
     //public Image healthBar;
     public Slider healthBar, hitBar;
     public float lerpSpeed = 0.05f;
@@ -37,6 +38,11 @@ public class GameManager : MonoBehaviour
             Time.timeScale = 1f;
 			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 		}
+        if(Input.GetKeyDown(KeyCode.F1))
+        {
+            controlsHelp.SetActive(!controlsHelp.activeSelf);
+        }
+
 		HUD();
 		missionTimer += Time.deltaTime;
     }
@@ -62,16 +68,11 @@ public class GameManager : MonoBehaviour
 		else
 			continues.text = "(" + hp.extraLives + ")";
 
-        //healthBar.fillAmount = hp.hpPercent / 100f;
-        if(healthBar.value != hp.HP)
-        {
-            healthBar.value = hp.HP;
-        }
+        healthBar.value = hp.hpPercent / 100f;
         staminaBar.fillAmount = hp.stamina;
         if(healthBar.value != hitBar.value)
         {
-        hitBar.value = Mathf.Lerp(hitBar.value,hp.HP,lerpSpeed);
-            
+            hitBar.value = Mathf.Lerp(hitBar.value, healthBar.value, lerpSpeed);
         }
 
 		if(sword.isBlocking)
@@ -108,7 +109,16 @@ public class GameManager : MonoBehaviour
         fadeinOut.ActivateFadeOut = true;
         Time.timeScale = 0.2f;
         Debug.Log("Boss fight started!");
+        Invoke("ReturnToMenu", 1.5f);
         // Trigger boss intro, lock arena doors, etc.
+    }
+
+    void ReturnToMenu()
+    {
+        Cursor.lockState = CursorLockMode.None; // lock cursor in the center
+        Cursor.visible = true;
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(0);
     }
 
     public void OnBossDefeated()

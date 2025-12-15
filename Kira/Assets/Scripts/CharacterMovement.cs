@@ -79,7 +79,7 @@ public class CharacterMovement : MonoBehaviour
 
     public bool Dash()
     {
-        if (isDashing || isCrouching || !isGrounded || moveInput.magnitude == 0f) return false;
+        if (isDashing || isCrouching || moveInput.magnitude == 0f) return false;
 		aSource.PlayOneShot(dashSound);
         dashTimer = dashDuration;
 		isDashing = true;
@@ -100,7 +100,12 @@ public class CharacterMovement : MonoBehaviour
         Vector3 vel = rb.linearVelocity;
 		Vector3 moveVelocity = (moveDir * currentSpeed) * 60f;
         float rbSpeed = vel.magnitude;
-        speedDampFactor = Mathf.Clamp01((moveVelocity.magnitude - Mathf.Abs(vel.magnitude)) / (moveVelocity.magnitude - (moveVelocity.magnitude * 0.7f)));
+		speedDampFactor = 0f;
+
+        if (moveVelocity.magnitude != 0f)
+		{
+            speedDampFactor = Mathf.Clamp01((moveVelocity.magnitude - Mathf.Abs(vel.magnitude)) / (moveVelocity.magnitude - (moveVelocity.magnitude * 0.7f)));
+        }
 
 		moveVelocity = (moveVelocity * speedDampFactor) + vel;
 		rb.linearVelocity = new Vector3(moveVelocity.x, vel.y, moveVelocity.z);
