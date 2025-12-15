@@ -90,7 +90,7 @@ public class SwordController : MonoBehaviour
 			float dotProduct = Vector3.Dot((transform.position - hit.transform.position), hit.transform.forward);
 			if(dotProduct < -0.5f)
 			{
-				targetDamage *= 3f;
+				targetDamage *= 10f;
 			 	print("Hit from behind");
 			}
             if (targetHealth)

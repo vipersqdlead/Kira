@@ -3005,6 +3005,7 @@ GameObject:
   - component: {fileID: 3333616424305719134}
   - component: {fileID: 586746203857500988}
   - component: {fileID: 4816656984845279213}
+  - component: {fileID: 8806234601287775305}
   - component: {fileID: 8924384210948639882}
   - component: {fileID: 2373035842234256764}
   - component: {fileID: 1229063379767381013}
@@ -3080,9 +3081,12 @@ MonoBehaviour:
   jumpForce: 1
   onLadder: 0
   climbSpeed: 3
+  isDashing: 0
   aSource: {fileID: 4816656984845279213}
-  dashjumpSound: {fileID: 8300000, guid: 1f876cf0cc385f840b27c61e9e767d38, type: 3}
-  stepSound: {fileID: 0}
+  stepASource: {fileID: 8806234601287775305}
+  dashSound: {fileID: 8300000, guid: cd45fcf1feeec884681d62afe4f06727, type: 3}
+  jumpSound: {fileID: 8300000, guid: 1f876cf0cc385f840b27c61e9e767d38, type: 3}
+  speedDampFactor: 0
 --- !u!82 &4816656984845279213
 AudioSource:
   m_ObjectHideFlags: 0
@@ -3106,6 +3110,103 @@ AudioSource:
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 5
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!82 &8806234601287775305
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7247997075041702813}
+  m_Enabled: 0
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 8300000, guid: 225e8f038da5bf6469f24e484c3067bc, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 10
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -3220,12 +3321,12 @@ MonoBehaviour:
   countsAsKill: 1
   HP: 5
   hpPercent: 100
-  Defense: 10
+  Defense: 7
   CritRate: 0
   extraLives: 0
   destroyedObject: {fileID: 0}
   aSource: {fileID: 1229063379767381013}
-  hitSound: {fileID: 8300000, guid: 8ce2bed7de5504f47b235425cb5aaf39, type: 3}
+  hitSound: {fileID: 8300000, guid: 79c6118b4743b1e4c8a3bffd9a83cd33, type: 3}
   deathSound: {fileID: 0}
   invulnerable: 0
   invulnerableTimer: 0
@@ -3252,7 +3353,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 3
   MaxDistance: 5
   Pan2D: 0
   rolloffMode: 0
@@ -3360,7 +3461,7 @@ MonoBehaviour:
   parrySound: {fileID: 8300000, guid: 508e5b82fee3ab04284b1bdad89ca974, type: 3}
   swordObj: {fileID: 6187729882705391}
   parryWindow: 0.25
-  parryPushForce: 8
+  parryPushForce: 3
   isBlocking: 0
 --- !u!82 &5657235387693061014
 AudioSource:
@@ -3467,8 +3568,8 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7247997075041702813}
   serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 1
+  m_Mass: 15
+  m_Drag: 2
   m_AngularDrag: 0
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}

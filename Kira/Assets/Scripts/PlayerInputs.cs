@@ -39,9 +39,12 @@ public class PlayerInputs : MonoBehaviour
 		if(Input.GetKeyDown(dashKey) && hp.stamina >= .3f)
 		{
             
-			movement.Dash();
-            hp.stamina -= 0.3f;
-            camaraAnimation.SetBool("Dash",true);
+			bool couldDash = movement.Dash();
+            if (couldDash)
+            {
+                hp.stamina -= 0.3f;
+                camaraAnimation.SetBool("Dash", true);
+            }
 		}
 		
 		if(Input.GetKeyDown(attackKey) && isBlocking ==false)

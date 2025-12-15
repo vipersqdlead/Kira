@@ -34,6 +34,7 @@ public class GameManager : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.R) || player == null || player.transform.position.y < -10f)
 		{
 			OnPlayerDeath();
+            Time.timeScale = 1f;
 			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 		}
 		HUD();

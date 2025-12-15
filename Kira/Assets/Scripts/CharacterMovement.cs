@@ -19,12 +19,12 @@ public class CharacterMovement : MonoBehaviour
     private Vector3 velocity;
     private bool isGrounded;
     private bool isCrouching;
-    private bool isDashing;
+    [HideInInspector]public bool isDashing;
     private float dashTimer;
 
 	[Header("Effects")]
-	public AudioSource aSource;
-	public AudioClip dashjumpSound, stepSound;
+	public AudioSource aSource, stepASource;
+	public AudioClip dashSound, jumpSound;
 	
 
     // Movement input (set externally by PlayerInput or AI)
@@ -77,16 +77,17 @@ public class CharacterMovement : MonoBehaviour
         //controller.height = isCrouching ? 1.0f : 2.0f; // simple height toggle
     }
 
-    public void Dash()
+    public bool Dash()
     {
-        if (isDashing || isCrouching || !isGrounded) return;
-		aSource.PlayOneShot(dashjumpSound);
+        if (isDashing || isCrouching || !isGrounded || moveInput.magnitude == 0f) return false;
+		aSource.PlayOneShot(dashSound);
         dashTimer = dashDuration;
 		isDashing = true;
+		return true;
     }
 
-    // --- Core Mechanics ---
-
+	// --- Core Mechanics ---
+	public float speedDampFactor;
     private void MoveCharacter()
     {
         if (isDashing) return; // handled separately
@@ -95,10 +96,16 @@ public class CharacterMovement : MonoBehaviour
 		moveDir = Vector3.ClampMagnitude(moveDir, 1f);
 		//moveDir.magnitude = Mathf.Clamp(moveDir.magnitude, -1f, 1f);
 		float currentSpeed = moveSpeed * (isCrouching ? crouchSpeedMultiplier : 1f);
-				
-		Vector3 vel = rb.linearVelocity;
-		Vector3 moveVelocity = moveDir * currentSpeed * 60f;
+
+        Vector3 vel = rb.linearVelocity;
+		Vector3 moveVelocity = (moveDir * currentSpeed) * 60f;
+        float rbSpeed = vel.magnitude;
+        speedDampFactor = Mathf.Clamp01((moveVelocity.magnitude - Mathf.Abs(vel.magnitude)) / (moveVelocity.magnitude - (moveVelocity.magnitude * 0.7f)));
+
+		moveVelocity = (moveVelocity * speedDampFactor) + vel;
 		rb.linearVelocity = new Vector3(moveVelocity.x, vel.y, moveVelocity.z);
+
+		stepASource.enabled = moveVelocity.magnitude != 0f;
     }
 
     private float _rotationVelocity;
@@ -128,7 +135,7 @@ public class CharacterMovement : MonoBehaviour
 		if(!isGrounded) { print("Tried to jump, but char is not grounded."); return; }
 		
 		rb.AddForce(transform.up * jumpForce * (Time.fixedDeltaTime * 60f), ForceMode.Impulse);
-        aSource.PlayOneShot(dashjumpSound);
+        aSource.PlayOneShot(jumpSound);
         print("Jump!");
 	}
 	
