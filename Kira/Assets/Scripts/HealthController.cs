@@ -12,7 +12,8 @@ public class HealthController : MonoBehaviour
     float maxHP, originalDef;
     public int extraLives;
     bool lastHit = false;
-
+    public AnimationController animControl;
+    public Animator animator;
     [Header("Effects")]
     [SerializeField] GameObject destroyedObject;
     [SerializeField] AudioSource aSource;
@@ -20,7 +21,7 @@ public class HealthController : MonoBehaviour
 
     public bool invulnerable;
     [SerializeField] public float invulnerableTimer;
-	
+    public bool staminaActivator = true;
 	public bool isBlocking = false;
     public float stamina = 1f;
 
@@ -42,13 +43,22 @@ public class HealthController : MonoBehaviour
 		if(isBlocking)
 		{
 			stamina -= 0.2f;
+            if (animator != null)
+            {
+                animator.SetBool("Impacted", true);
+            }
 		}
 		
         if (!invulnerable)
         {
-			float dmg = _dmg / Defense;
+            if (animControl != null)
+            {
+                animControl.IsHitted();
+            }
+            float dmg = _dmg / Defense;
             HP -= dmg;
             hpPercent = HP * 100f / maxHP;
+            
 
             if (HP <= 0)
             {
@@ -68,6 +78,9 @@ public class HealthController : MonoBehaviour
             }
             else
             {
+
+                Invoke("StopHurt", .2f);
+                Invoke("StopImpact", .15f);
                 aSource.PlayOneShot(hitSound);
             }
             return false;
@@ -80,6 +93,9 @@ public class HealthController : MonoBehaviour
 
     private void Update()
     {
+        
+
+
         if (invulnerable)
         {
             invulnerableTimer -= Time.deltaTime;
@@ -89,15 +105,38 @@ public class HealthController : MonoBehaviour
             }
         }
 		
-		if(stamina <= 0f)
+		if(stamina <= 0f && staminaActivator == true)
 		{
 			print("out of Stamina");
 			isBlocking = false;
+            staminaActivator = false;
 		}
-
+        if (staminaActivator == false)
+        {
+            animator.SetBool("Blocking",false);
+            isBlocking = false;
+        }
+        if (stamina >= .3f && staminaActivator == false)
+        {
+            staminaActivator = true;
+        }
         CheckStamina();
 
         
+    }
+    void StopHurt()
+    {
+        if (animControl != null)
+        {
+            animControl.EndHitted();
+        }
+    }
+    void StopImpact()
+    {
+        if (animator != null)
+        {
+            animator.SetBool("Impacted", false);
+        }
     }
 
     float dpsTimer;

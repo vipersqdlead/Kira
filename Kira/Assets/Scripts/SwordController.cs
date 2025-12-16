@@ -27,6 +27,7 @@ public class SwordController : MonoBehaviour
 	public Animator attacksAnimation;
 	public AudioSource aSource;
 	public AudioClip slashSound, clashSound, parrySound;
+	public AnimationController animControl;
     private void FixedUpdate()
     {
         if (isAttacking)
@@ -46,6 +47,10 @@ public class SwordController : MonoBehaviour
 		aSource.PlayOneShot(slashSound);
 		gameObject.GetComponent<Collider>().attachedRigidbody.AddForce(transform.forward * (2f * Time.fixedDeltaTime * 60f), ForceMode.Impulse);
         attackTimer = 0f;
+		if(animControl != null)
+		{
+			animControl.StartAttack();
+		}
         StartCoroutine(AttackCooldown());
     }
 
@@ -100,10 +105,14 @@ public class SwordController : MonoBehaviour
 					Debug.Log("Attack was parried!");
                     aSource.PlayOneShot(parrySound);
                     isAttacking = false; // optional: cancel your attack
-					return;              // stop further damage/knockback
+                    if (animControl != null)
+                    {
+                        animControl.EndAttack();
+                    }
+                    return;              // stop further damage/knockback
 				}
 				
-				if (targetCombat && targetCombat.isBlocking)
+				if (targetCombat && (targetCombat.isBlocking && targetHealth.staminaActivator) )
 				{
 					Debug.Log("Attack blocked!");
                     aSource.PlayOneShot(clashSound);
@@ -147,6 +156,10 @@ public class SwordController : MonoBehaviour
         {
             isAttacking = false;
 			wereHit.Clear();
+            if (animControl != null)
+            {
+                animControl.EndAttack();
+            }
         }
     }
 
@@ -219,21 +232,40 @@ public class SwordController : MonoBehaviour
 	public void OnBlockReleased()
 	{
 		isBlocking = false;
-	}
+    }
 
 	// Called each frame
 	private void UpdateParryAndBlock()
 	{
 		if (parryActive)
 		{
-			parryTimer += Time.deltaTime;
+			if (attacksAnimation != null)
+			{
+				attacksAnimation.SetBool("Blocking", true);
+			}
+            parryTimer += Time.deltaTime;
 			if (parryTimer >= parryWindow)
+			{
 				parryActive = false; // parry window ends, but block can remain
-		}
+				if (attacksAnimation != null)
+				{
+					attacksAnimation.SetBool("Parry", false);
+				}
+            }
+        }
+		else
+		{
+            
+			if (attacksAnimation != null)
+			{
+				attacksAnimation.SetBool("Blocking", isBlocking);
+			}
+        }
 
-		// Update HealthSystem block flag if you have a Health component on player
-		HealthController hp = GetComponent<HealthController>();
+			// Update HealthSystem block flag if you have a Health component on player
+			HealthController hp = GetComponent<HealthController>();
 		if (hp) hp.isBlocking = isBlocking;
+
 	}
 	
 	public bool TryParry(GameObject attacker)
@@ -249,6 +281,11 @@ public class SwordController : MonoBehaviour
 			}
 
 			Debug.Log("Parry successful! Enemy pushed back.");
+			if(attacksAnimation != null)
+			{
+			attacksAnimation.SetBool("Parry", true);
+
+			}
 			return true;
 		}
 

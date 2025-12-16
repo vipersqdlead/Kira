@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem.Controls;
 
 [RequireComponent(typeof(Rigidbody))]
 public class CharacterMovement : MonoBehaviour
@@ -11,13 +12,13 @@ public class CharacterMovement : MonoBehaviour
     public float dashForce = 5f;
     public float dashDuration = 0.2f;
 	public float jumpForce = 5f;
-	
+	public Animator animations;
 	[Header("Ladder Settings")]
 	public bool onLadder = false;
 	public float climbSpeed = 3f;
 
     private Vector3 velocity;
-    private bool isGrounded;
+    public bool isGrounded;
     private bool isCrouching;
     [HideInInspector]public bool isDashing;
     private float dashTimer;
@@ -28,7 +29,7 @@ public class CharacterMovement : MonoBehaviour
 	
 
     // Movement input (set externally by PlayerInput or AI)
-    private Vector2 moveInput;
+    public Vector2 moveInput;
     private float targetRotation;
 
     private void Awake()
@@ -43,7 +44,14 @@ public class CharacterMovement : MonoBehaviour
 			HandleLadderMovement();
 			return;
 		}
-		
+		if (!isGrounded)
+		{
+            if (animations != null)
+            {
+                animations.SetBool("Walking", false);
+
+            }
+        }
         HandleDash();
         MoveCharacter();
 		CheckGround();
@@ -137,7 +145,10 @@ public class CharacterMovement : MonoBehaviour
 	
 	public void Jump()
 	{
-		if(!isGrounded) { print("Tried to jump, but char is not grounded."); return; }
+		if(!isGrounded) { print("Tried to jump, but char is not grounded.");
+           
+			return; 
+		}
 		
 		rb.AddForce(transform.up * jumpForce * (Time.fixedDeltaTime * 60f), ForceMode.Impulse);
         aSource.PlayOneShot(jumpSound);

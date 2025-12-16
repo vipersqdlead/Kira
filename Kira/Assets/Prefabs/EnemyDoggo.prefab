@@ -8,6 +8,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2373035842234256764, guid: a171401b87177b247aee29a53e9b7062, type: 3}
+      propertyPath: HP
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2373035842234256764, guid: a171401b87177b247aee29a53e9b7062, type: 3}
+      propertyPath: Defense
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 3333616424305719134, guid: a171401b87177b247aee29a53e9b7062, type: 3}
       propertyPath: m_Height
       value: 2.3191147

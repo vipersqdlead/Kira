@@ -11,6 +11,7 @@ public class PlayerInputs : MonoBehaviour
 	public float dashCooldown = 0.5f;
 
     public Animator animations,camaraAnimation;
+    public bool youCanWalk = true;
 	bool isBlocking;
     public int changeAttack = 1, changeAttackCamera =1;
 	private void Start()
@@ -23,19 +24,30 @@ public class PlayerInputs : MonoBehaviour
     {
         Vector2 move = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
         movement.MoveXY(move);
-		if(move.y != 0 || move.x != 0)
+		if(move.y != 0 || move.x != 0 && youCanWalk == true)
         {
             animations.SetBool("Walking",true);
             camaraAnimation.SetBool("Dash",false);
         }
-        else
+        else if (youCanWalk == false) 
         {
            animations.SetBool("Walking",false); 
         }
+
+        if (movement.isGrounded)
+        {
+            youCanWalk =true;
+        }
+        else
+        {
+            youCanWalk = false;
+        }
+
 		if(Input.GetKeyDown(jumpKey))
 		{
 			movement.Jump();
-		}
+            
+        }
 		if(Input.GetKeyDown(dashKey) && hp.stamina >= .3f)
 		{
             
@@ -44,6 +56,7 @@ public class PlayerInputs : MonoBehaviour
             {
                 hp.stamina -= 0.3f;
                 camaraAnimation.SetBool("Dash", true);
+                animations.SetBool("Walking", false);
             }
 		}
 		
@@ -74,13 +87,13 @@ public class PlayerInputs : MonoBehaviour
 		{
 			sword.OnBlockPressed();
             isBlocking =true;
-            animations.SetBool("Blocking",true);
+            
 		}
 		if(Input.GetKeyUp(blockKey))
 		{
             isBlocking =false;
 			sword.OnBlockReleased();
-            animations.SetBool("Blocking",false);
+            
 		}
 		
 		movement.SetCrouch(Input.GetKey(crouchKey));

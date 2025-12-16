@@ -1738,7 +1738,6 @@ GameObject:
   m_Component:
   - component: {fileID: 9066581139530488285}
   - component: {fileID: 7284826170749478995}
-  - component: {fileID: 6303181893823052746}
   m_Layer: 0
   m_Name: PitbullMedievalKiraNewBones Kira Fix@Great Sword Idle
   m_TagString: Untagged
@@ -1785,18 +1784,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &6303181893823052746
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4212379184997443345}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff4e2df3e035f3d42bbd2e3ddf210e6c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &4221648919976448422
 GameObject:
   m_ObjectHideFlags: 0
@@ -3014,6 +3001,7 @@ GameObject:
   - component: {fileID: 5012255310771453053}
   - component: {fileID: 482120987643617196}
   - component: {fileID: 4059433362798312103}
+  - component: {fileID: 5635404045593149939}
   m_Layer: 0
   m_Name: EnemyBase
   m_TagString: Untagged
@@ -3086,6 +3074,7 @@ MonoBehaviour:
   stepASource: {fileID: 8806234601287775305}
   dashSound: {fileID: 8300000, guid: cd45fcf1feeec884681d62afe4f06727, type: 3}
   jumpSound: {fileID: 8300000, guid: 1f876cf0cc385f840b27c61e9e767d38, type: 3}
+  moveInput: {x: 0, y: 0}
   speedDampFactor: 0
 --- !u!82 &4816656984845279213
 AudioSource:
@@ -3324,6 +3313,7 @@ MonoBehaviour:
   Defense: 7
   CritRate: 0
   extraLives: 0
+  animControl: {fileID: 5635404045593149939}
   destroyedObject: {fileID: 0}
   aSource: {fileID: 1229063379767381013}
   hitSound: {fileID: 8300000, guid: 79c6118b4743b1e4c8a3bffd9a83cd33, type: 3}
@@ -3450,7 +3440,7 @@ MonoBehaviour:
   attackRadius: 0.3
   maxAttackRadius: 1
   attackAngle: 70
-  attackCooldown: 0.4
+  attackCooldown: 1
   damage: 25
   attackPushback: 10
   attackTimer: 0
@@ -3459,6 +3449,7 @@ MonoBehaviour:
   slashSound: {fileID: 8300000, guid: 8df4e8884782d884a9d6618ffd6ac8f2, type: 3}
   clashSound: {fileID: 8300000, guid: 39cd94367a4fcd540a0710b00f0a1a35, type: 3}
   parrySound: {fileID: 8300000, guid: 508e5b82fee3ab04284b1bdad89ca974, type: 3}
+  animControl: {fileID: 5635404045593149939}
   swordObj: {fileID: 6187729882705391}
   parryWindow: 0.25
   parryPushForce: 3
@@ -3615,6 +3606,20 @@ MonoBehaviour:
   AIUser: {fileID: 0}
   patrolPoints: []
   patrolIndex: 0
+--- !u!114 &5635404045593149939
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7247997075041702813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58db7e70a69d9184d9ed536c7e0684d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterMove: {fileID: 586746203857500988}
+  animationEnemy: {fileID: 7284826170749478995}
 --- !u!1 &7665596303712743498
 GameObject:
   m_ObjectHideFlags: 0
