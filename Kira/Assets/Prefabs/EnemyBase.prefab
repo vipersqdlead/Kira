@@ -3067,8 +3067,10 @@ MonoBehaviour:
   dashForce: 1
   dashDuration: 0.2
   jumpForce: 1
+  animations: {fileID: 0}
   onLadder: 0
   climbSpeed: 3
+  isGrounded: 0
   isDashing: 0
   aSource: {fileID: 4816656984845279213}
   stepASource: {fileID: 8806234601287775305}
@@ -3314,12 +3316,14 @@ MonoBehaviour:
   CritRate: 0
   extraLives: 0
   animControl: {fileID: 5635404045593149939}
+  animator: {fileID: 0}
   destroyedObject: {fileID: 0}
   aSource: {fileID: 1229063379767381013}
   hitSound: {fileID: 8300000, guid: 79c6118b4743b1e4c8a3bffd9a83cd33, type: 3}
   deathSound: {fileID: 0}
   invulnerable: 0
   invulnerableTimer: 0
+  staminaActivator: 1
   isBlocking: 0
   stamina: 1
 --- !u!82 &1229063379767381013
@@ -3447,7 +3451,7 @@ MonoBehaviour:
   attacksAnimation: {fileID: 0}
   aSource: {fileID: 5657235387693061014}
   slashSound: {fileID: 8300000, guid: 8df4e8884782d884a9d6618ffd6ac8f2, type: 3}
-  clashSound: {fileID: 8300000, guid: 39cd94367a4fcd540a0710b00f0a1a35, type: 3}
+  clashSound: {fileID: 8300000, guid: d6213782629316649a446675e2c69aa7, type: 3}
   parrySound: {fileID: 8300000, guid: 508e5b82fee3ab04284b1bdad89ca974, type: 3}
   animControl: {fileID: 5635404045593149939}
   swordObj: {fileID: 6187729882705391}
