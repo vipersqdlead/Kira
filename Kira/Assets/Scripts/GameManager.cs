@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     //public Image healthBar;
     public Slider healthBar, hitBar;
     public float lerpSpeed = 0.05f;
+    public DeathCamera deathCam;
     public FadeInOut fadeinOut;
 
     [Header("animation")]
@@ -31,12 +32,16 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-    
+        if(player != null)
+        {
+            deathCam.gameObject.transform.position = Camera.main.transform.position;
+            deathCam.gameObject.transform.rotation = Camera.main.transform.rotation;
+        }
+
         if(Input.GetKeyDown(KeyCode.R) || player == null || player.transform.position.y < -10f)
 		{
 			OnPlayerDeath();
-            Time.timeScale = 1f;
-			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            Invoke("RestartLevel", 1f);
 		}
         if(Input.GetKeyDown(KeyCode.F1))
         {
@@ -121,6 +126,12 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(0);
     }
 
+    void RestartLevel()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
     public void OnBossDefeated()
     {
         currentState = GameState.Victory;
@@ -130,6 +141,14 @@ public class GameManager : MonoBehaviour
 
     public void OnPlayerDeath()
     {
+        if(player != null)
+        {
+            Destroy(player);
+        }
+        livesAnimation.SetInteger("Vidas", 0);
+        deathCam.gameObject.SetActive(true);
+        fadeinOut.ActivateFadeOut = true;
+        Time.timeScale = 0.2f;
         currentState = GameState.GameOver;
         Debug.Log("Game Over!");
         // Trigger game over screen or restart

@@ -347,6 +347,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   countsAsKill: 1
+  isPlayer: 1
   HP: 10
   hpPercent: 0
   Defense: 10

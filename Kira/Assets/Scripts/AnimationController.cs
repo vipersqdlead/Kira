@@ -38,6 +38,9 @@ public class AnimationController : MonoBehaviour
     }
     public void IsDead()
     {
+        EndHitted();
+        EndAttack();
+        animationEnemy.SetBool("Walking", false);
         animationEnemy.SetBool("IsDead", true);
     }
 }

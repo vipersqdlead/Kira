@@ -8,6 +8,7 @@ public class HealthController : MonoBehaviour
 {
     [Header("General Settings")]
     [SerializeField] public bool countsAsKill = true;
+    [SerializeField] public bool isPlayer = false;
     public float HP, hpPercent, Defense, CritRate;
     float maxHP, originalDef;
     public int extraLives;
@@ -93,9 +94,6 @@ public class HealthController : MonoBehaviour
 
     private void Update()
     {
-        
-
-
         if (invulnerable)
         {
             invulnerableTimer -= Time.deltaTime;
@@ -157,27 +155,17 @@ public class HealthController : MonoBehaviour
 
     void Kill()
     {
-        aSource.PlayOneShot(deathSound);
-        InstantiateDestroyedObject();
-        Destroy(gameObject);
-        return;
-    }
-	
-	void KillNoExplosion()
-	{
-        InstantiateDestroyedObject();
-        Destroy(gameObject);
-        return;
-	}
-
-    void InstantiateDestroyedObject()
-    {
-        if(destroyedObject != null)
+        if(!isPlayer)
         {
-            GameObject destroyedObj = Instantiate(destroyedObject, transform.position, transform.rotation);
-			Rigidbody destroyedObjRb = destroyedObj.GetComponent<Rigidbody>();
-            Rigidbody ownRb = GetComponent<Rigidbody>();
-            destroyedObjRb.AddForce(ownRb.linearVelocity, ForceMode.VelocityChange);
+            Destroy(gameObject, 10f);
+            aSource.PlayOneShot(deathSound);
+            DeathAnim();
+            return;
+        }
+
+        else
+        {
+            Destroy(gameObject);
         }
     }
 
@@ -241,4 +229,22 @@ public class HealthController : MonoBehaviour
 			}
 		}
 	}
+
+    void DeathAnim()
+    {
+        animControl.IsDead();
+
+        AIController ai = GetComponent<AIController>();
+        if (ai != null) Destroy(ai);
+
+        SwordController sw = GetComponent<SwordController>();
+        if(sw != null) Destroy(sw);
+
+        CharacterMovement ch = GetComponent<CharacterMovement>();
+        if(ch != null) Destroy(ch);
+
+        Destroy(animControl);
+
+        Destroy(this);
+    }
 }
